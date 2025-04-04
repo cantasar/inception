@@ -26,9 +26,13 @@ if [ ! -f /var/www/html/wp-config.php ]; then
 
 fi
 
-	sed -i 's/listen = \/run\/php\/php7.3-fpm.sock/listen = 9000/g' /etc/php/7.3/fpm/pool.d/www.conf
+# Update for PHP 7.4
+sed -i 's/listen = \/run\/php\/php7.4-fpm.sock/listen = 9000/g' /etc/php/7.4/fpm/pool.d/www.conf
 
-	mkdir /run/php
+# Create directory only if it doesn't exist
+if [ ! -d /run/php ]; then
+    mkdir /run/php
+fi
 
-
-/usr/sbin/php-fpm7.3 -F
+# Update PHP-FPM version
+/usr/sbin/php-fpm7.4 -F

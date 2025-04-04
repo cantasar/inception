@@ -7,6 +7,6 @@ EXPOSE 3306
 COPY ./conf/50-server.cnf /etc/mysql/mariadb.conf.d/
 COPY ./tools/create-db.sql /
 
-RUN service mysql start && mysql < /create-db.sql && rm -f /create-db.sql;
+RUN service mariadb start && mariadb < /create-db.sql && rm -f /create-db.sql;
 
-CMD ["mysqld"]
+CMD ["mysqld_safe"]
