@@ -1,61 +1,70 @@
+# Docker Compose versiyon 3.8 kullanılıyor
 version: "3.8"
 
 services:
+  # NGINX web sunucusu servisi
   nginx:
-    container_name: nginx
-    build: ./requirements/nginx/.
+    container_name: nginx  # Konteyner adı
+    build: ./requirements/nginx/.  # NGINX Dockerfile konumu
     ports:
-      - "443:443"
+      - "443:443"  # HTTPS portu dışarıya açılıyor
     depends_on:
-      - wordpress
+      - wordpress  # WordPress servisi hazır olana kadar bekle
     volumes:
-      - wordpress:/var/www/html
+      - wordpress:/var/www/html  # WordPress dosyaları için kalıcı depolama
     networks:
-      - inception
+      - inception  # Özel ağa bağlan
     env_file:
-      - .env
-    restart: always
+      - .env  # Çevre değişkenleri dosyası
+    restart: always  # Hata durumunda otomatik yeniden başlat
 
+  # WordPress uygulaması servisi
   wordpress:
     container_name: wordpress
     build: ./requirements/wordpress/.
     depends_on:
-      - mariadb
+      - mariadb  # Veritabanı servisi hazır olana kadar bekle
     volumes:
-      - wordpress:/var/www/html
+      - wordpress:/var/www/html  # WordPress dosyaları için kalıcı depolama
     env_file:
       - .env
     networks:
       - inception
     restart: always
 
+  # MariaDB veritabanı servisi
   mariadb:
     container_name: mariadb
     build: ./requirements/mariadb/.
     volumes:
-      - mariadb:/var/lib/mysql
+      - mariadb:/var/lib/mysql  # Veritabanı dosyaları için kalıcı depolama
     env_file:
       - .env
     networks:
       - inception
     restart: always
 
+# Kalıcı veri depolama birimleri tanımı
 volumes:
+  # WordPress dosyaları için volume
   wordpress:
     name: wordpress
     driver: local
     driver_opts:
-      device: /home/ctasar/data/wordpress
-      o: bind
-      type: none
+      device: /home/ctasar/data/wordpress  # Host sistemdeki konum
+      o: bind  # Bind mount tipi
+      type: none  # Özel dosya sistemi kullanma
+  
+  # MariaDB verileri için volume
   mariadb:
     name: mariadb
     driver: local
     driver_opts:
-      device: /home/ctasar/data/mariadb
+      device: /home/ctasar/data/mariadb  # Host sistemdeki konum
       o: bind
       type: none
 
+# Özel ağ tanımı
 networks:
   inception:
-    name: inception
+    name: inception  # Servisler arası iletişim için özel ağ

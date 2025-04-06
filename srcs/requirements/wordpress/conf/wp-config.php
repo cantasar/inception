@@ -1,52 +1,47 @@
 <?php
 /**
- * The base configuration for WordPress
- *
- * The wp-config.php creation script uses this file during the installation.
- * You don't have to use the website, you can copy this file to "wp-config.php"
- * and fill in the values.
- *
- * This file contains the following configurations:
- *
- * * Database settings
- * * Secret keys
- * * Database table prefix
- * * ABSPATH
- *
- * @link https://developer.wordpress.org/advanced-administration/wordpress/wp-config/
- *
- * @package WordPress
+ * WordPress için Temel Yapılandırma Dosyası
+ * 
+ * Bu dosya WordPress kurulumu sırasında kullanılır ve temel yapılandırma
+ * ayarlarını içerir. Dosya wp-config.php olarak kopyalanır ve gerekli
+ * değerler doldurulur.
+ * 
+ * Dosya içeriği:
+ * 1. Veritabanı bağlantı ayarları
+ * 2. Güvenlik anahtarları ve tuzları
+ * 3. Veritabanı tablo öneki
+ * 4. WordPress dizin yolu (ABSPATH)
+ * 5. Hata ayıklama modu ayarları
  */
 
-// ** Database settings - You can get this info from your web host ** //
-/** The name of the database for WordPress */
+// ** Veritabanı Ayarları ** //
+/** WordPress veritabanı adı */
 define( 'DB_NAME', 'wordpress' );
 
-/** Database username */
+/** MariaDB kullanıcı adı - Docker ağında WordPress'in veritabanına erişimi için */
 define( 'DB_USER', 'ctasar' );
 
-/** Database password */
+/** MariaDB kullanıcı şifresi */
 define( 'DB_PASSWORD', '12345' );
 
-/** Database hostname */
+/** MariaDB sunucu adresi - Docker servis adı kullanılıyor */
 define( 'DB_HOST', 'mariadb' );
 
-/** Database charset to use in creating database tables. */
+/** Veritabanı karakter seti - Türkçe karakterler için UTF-8 */
 define( 'DB_CHARSET', 'utf8' );
 
-/** The database collate type. Don't change this if in doubt. */
+/** Veritabanı karşılaştırma tipi - varsayılan değer kullanılıyor */
 define( 'DB_COLLATE', '' );
 
 /**#@+
- * Authentication unique keys and salts.
+ * Güvenlik Anahtarları ve Tuzları
  *
- * Change these to different unique phrases! You can generate these using
- * the {@link https://api.wordpress.org/secret-key/1.1/salt/ WordPress.org secret-key service}.
+ * Her anahtar benzersiz ve rastgele bir dize olmalıdır!
+ * WordPress.org'un güvenlik anahtarı servisinden oluşturulabilir
+ * {@link https://api.wordpress.org/secret-key/1.1/salt/}
  *
- * You can change these at any point in time to invalidate all existing cookies.
- * This will force all users to have to log in again.
- *
- * @since 2.6.0
+ * Bu değerler değiştirildiğinde tüm çerezler geçersiz olur ve
+ * kullanıcıların yeniden giriş yapması gerekir
  */
 define('AUTH_KEY',         '^j6=.Iz]bCe$g_q#4CHCHn eH.mICAH6d8jb+Ti8 <Yhuhne5`(D.^Wwx%zF> |U');
 define('SECURE_AUTH_KEY',  'mxvu@6~Iqty!+veNt+<6aBA#baFf_j4qP@0s_#vrvWy,t9Y_TrKTpej)=NPb*r!_');
@@ -60,43 +55,36 @@ define('NONCE_SALT',       '.?&sAx3~17%0k>q]S5Iq-<0~+~x?mJ`gUT $Ew-N=RHP}u;5IM!L
 /**#@-*/
 
 /**
- * WordPress database table prefix.
+ * WordPress Veritabanı Tablo Öneki
  *
- * You can have multiple installations in one database if you give each
- * a unique prefix. Only numbers, letters, and underscores please!
+ * Aynı veritabanında birden fazla WordPress kurulumu olabilir
+ * Her kurulum için farklı önek kullanılmalıdır
+ * Sadece harfler, rakamlar ve alt çizgi kullanılabilir
  *
- * At the installation time, database tables are created with the specified prefix.
- * Changing this value after WordPress is installed will make your site think
- * it has not been installed.
- *
- * @link https://developer.wordpress.org/advanced-administration/wordpress/wp-config/#table-prefix
+ * WordPress kurulduktan sonra bu değerin değiştirilmesi
+ * sitenin kurulu olmadığını düşünmesine neden olur
  */
 $table_prefix = 'wp_';
 
 /**
- * For developers: WordPress debugging mode.
+ * WordPress Hata Ayıklama Modu
  *
- * Change this to true to enable the display of notices during development.
- * It is strongly recommended that plugin and theme developers use WP_DEBUG
- * in their development environments.
- *
- * For information on other constants that can be used for debugging,
- * visit the documentation.
- *
- * @link https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/
+ * Geliştirme sırasında hataları görmek için true yapılabilir
+ * Canlı ortamda güvenlik için false olmalıdır
+ * 
+ * Ek hata ayıklama sabitleri için WordPress belgelerini inceleyin:
+ * {@link https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/}
  */
 define( 'WP_DEBUG', false );
 
-/* Add any custom values between this line and the "stop editing" line. */
+// Buraya özel değerler eklenebilir
 
+// Düzenleme buraya kadar! İyi yayınlar.
 
-
-/* That's all, stop editing! Happy publishing. */
-
-/** Absolute path to the WordPress directory. */
+/** WordPress dizininin tam yolu */
 if ( ! defined( 'ABSPATH' ) ) {
-	define( 'ABSPATH', __DIR__ . '/' );
+    define( 'ABSPATH', __DIR__ . '/' );
 }
 
-/** Sets up WordPress vars and included files. */
+/** WordPress değişkenlerini ve dosyalarını yükle */
 require_once ABSPATH . 'wp-settings.php';
